@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{38ec8453-a2c8-4bdf-85fa-8f6df3e02bce}</ProjectGuid>
+    <RootNamespace>HwpxToMarkdown</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);OS_WIN</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Owpml.lib;OWPMLApi.lib;OWPMLUtil.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Owpml.lib" />
+    <Library Include="lib\OWPMLApi.lib" />
+    <Library Include="lib\OWPMLUtil.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\HwpxConverter.h" />
+    <ClInclude Include="include\OWPMLApi\OWPMLApi.h" />
+    <ClInclude Include="include\OWPMLApi\OWPMLDocument.h" />
+    <ClInclude Include="include\OWPMLApi\OWPMLDocumentDef.h" />
+    <ClInclude Include="include\OWPMLApi\OWPMLSectionHandler.h" />
+    <ClInclude Include="include\OWPMLApi\OWPMLSerialize.h" />
+    <ClInclude Include="include\OWPMLApi\OWPMLSerializeModel.h" />
+    <ClInclude Include="include\OWPMLApi\stdafx.h" />
+    <ClInclude Include="include\OWPMLUtil\cipher.h" />
+    <ClInclude Include="include\OWPMLUtil\HncAES.h" />
+    <ClInclude Include="include\OWPMLUtil\HncAlloca.h" />
+    <ClInclude Include="include\OWPMLUtil\HncBaseStringDef.h" />
+    <ClInclude Include="include\OWPMLUtil\HncBlowfish.h" />
+    <ClInclude Include="include\OWPMLUtil\HncCodeUnix.h" />
+    <ClInclude Include="include\OWPMLUtil\HncCtrlChDef.h" />
+    <ClInclude Include="include\OWPMLUtil\HncDefine.h" />
+    <ClInclude Include="include\OWPMLUtil\HncPathUtils.h" />
+    <ClInclude Include="include\OWPMLUtil\HncSha1.h" />
+    <ClInclude Include="include\OWPMLUtil\Rijndael.h" />
+    <ClInclude Include="include\OWPMLUtil\stdafx.h" />
+    <ClInclude Include="include\OWPMLUtil\StringDef.h" />
+    <ClInclude Include="include\OWPML\Base\anyelement.h" />
+    <ClInclude Include="include\OWPML\Base\Attribute.h" />
+    <ClInclude Include="include\OWPML\Base\Compatibility.h" />
+    <ClInclude Include="include\OWPML\Base\DefaultHandler.h" />
+    <ClInclude Include="include\OWPML\Base\ExpatAttribute.h" />
+    <ClInclude Include="include\OWPML\Base\ExpatDefaultHandler.h" />
+    <ClInclude Include="include\OWPML\Base\ExpatSax.h" />
+    <ClInclude Include="include\OWPML\Base\ExpatSaxReader.h" />
+    <ClInclude Include="include\OWPML\Base\Handler.h" />
+    <ClInclude Include="include\OWPML\Base\NamespacePrefix.h" />
+    <ClInclude Include="include\OWPML\Base\Object.h" />
+    <ClInclude Include="include\OWPML\Base\PartNameSpaceInfo.h" />
+    <ClInclude Include="include\OWPML\Base\SaxReader.h" />
+    <ClInclude Include="include\OWPML\Base\Serialize.h" />
+    <ClInclude Include="include\OWPML\Base\Thread.h" />
+    <ClInclude Include="include\OWPML\Base\Type.h" />
+    <ClInclude Include="include\OWPML\Base\Util.h" />
+    <ClInclude Include="include\OWPML\Base\XMLAttribute.h" />
+    <ClInclude Include="include\OWPML\Base\XMLSerializer.h" />
+    <ClInclude Include="include\OWPML\Class\ClassID.h" />
+    <ClInclude Include="include\OWPML\Class\classinclude.h" />
+    <ClInclude Include="include\OWPML\Class\Core\color.h" />
+    <ClInclude Include="include\OWPML\Class\Core\FillBrushType.h" />
+    <ClInclude Include="include\OWPML\Class\Core\gradation.h" />
+    <ClInclude Include="include\OWPML\Class\Core\HWPValue.h" />
+    <ClInclude Include="include\OWPML\Class\Core\ImageType.h" />
+    <ClInclude Include="include\OWPML\Class\Core\imgBrush.h" />
+    <ClInclude Include="include\OWPML\Class\Core\marginAtt.h" />
+    <ClInclude Include="include\OWPML\Class\Core\MatrixType.h" />
+    <ClInclude Include="include\OWPML\Class\Core\PointType.h" />
+    <ClInclude Include="include\OWPML\Class\Core\winBrush.h" />
+    <ClInclude Include="include\OWPML\Class\enumdef.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\AbstractDiffDataType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\CaretPosition.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\container.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\DeleteType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\DiffEntryType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\DocDistribute.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\GuideType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\HistoryEntryType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\HWPApplicationSetting.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\HWPMLHistoryType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\identifier.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\InsertType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\item.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\itemref.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\language.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\ManifestType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\MasterPageType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\meta.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\MetadataType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\odfelement.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\package.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\ParameterArrayType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\ParameterBinary.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\ParameterItemtype.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\ParameterSetType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\PositionType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\reference.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\SectionType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\signatureelement.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\site.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\SpineType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\title.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\tour.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\ToursType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\UpdateType.h" />
+    <ClInclude Include="include\OWPML\Class\Etc\version.h" />
+    <ClInclude Include="include\OWPML\Class\Head\adjustBaselineInFixedLinespacing.h" />
+    <ClInclude Include="include\OWPML\Class\Head\adjustBaselineOfObjectToBottom.h" />
+    <ClInclude Include="include\OWPML\Class\Head\adjustLineheightToFont.h" />
+    <ClInclude Include="include\OWPML\Class\Head\adjustParaBorderfillToSpacing.h" />
+    <ClInclude Include="include\OWPML\Class\Head\adjustParaBorderOffsetWithBorder.h" />
+    <ClInclude Include="include\OWPML\Class\Head\adjustVertPosOfLine.h" />
+    <ClInclude Include="include\OWPML\Class\Head\align.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyAtLeastToPercent100Pct.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyCharSpacingToCharGrid.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyExtendHeaderFooterEachSection.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyFontspaceToLatin.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyFontWeightToBold.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyMinColumnWidthTo1mm.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyNextspacingOfLastPara.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyParaBorderToOutside.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyPrevspacingBeneathObject.h" />
+    <ClInclude Include="include\OWPML\Class\Head\applyTabPosBasedOnSegment.h" />
+    <ClInclude Include="include\OWPML\Class\Head\autoSpacing.h" />
+    <ClInclude Include="include\OWPML\Class\Head\baseCharUnitOfIndentOnFirstChar.h" />
+    <ClInclude Include="include\OWPML\Class\Head\baseCharUnitOnEAsian.h" />
+    <ClInclude Include="include\OWPML\Class\Head\baseLineSpacingOnLineGrid.h" />
+    <ClInclude Include="include\OWPML\Class\Head\beginNum.h" />
+    <ClInclude Include="include\OWPML\Class\Head\bold.h" />
+    <ClInclude Include="include\OWPML\Class\Head\border.h" />
+    <ClInclude Include="include\OWPML\Class\Head\borderFills.h" />
+    <ClInclude Include="include\OWPML\Class\Head\BorderFillType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\BorderType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\breakSetting.h" />
+    <ClInclude Include="include\OWPML\Class\Head\breakTabOverLine.h" />
+    <ClInclude Include="include\OWPML\Class\Head\bullets.h" />
+    <ClInclude Include="include\OWPML\Class\Head\BulletType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\charProperties.h" />
+    <ClInclude Include="include\OWPML\Class\Head\CharShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\CompatibleDocumentType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\connectParaBorderfillOfEqualBorder.h" />
+    <ClInclude Include="include\OWPML\Class\Head\docoption.h" />
+    <ClInclude Include="include\OWPML\Class\Head\docoptionLinkInfo.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotAdjustEmptyAnchorLine.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotAdjustWordInJustify.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotAlignLastForbidden.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotAlignLastPeriod.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotAlignWhitespaceOnRight.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyAutoSpaceEAsianEng.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyAutoSpaceEAsianNum.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyColSeparatorAtNoGap.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyDiacSymMarkOfNoneAndSix.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyExtensionCharCompose.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyGridInHeaderFooter.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyHeaderFooterAtNoSpace.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyImageEffect.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyLinegridAtNoLinespacing.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyShapeComment.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyStrikeoutWithUnderline.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyVertOffsetOfForward.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotApplyWhiteSpaceHeight.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotFormattingAtBeneathAnchor.h" />
+    <ClInclude Include="include\OWPML\Class\Head\doNotHoldAnchorOfTable.h" />
+    <ClInclude Include="include\OWPML\Class\Head\emboss.h" />
+    <ClInclude Include="include\OWPML\Class\Head\engrave.h" />
+    <ClInclude Include="include\OWPML\Class\Head\extendLineheightToOffset.h" />
+    <ClInclude Include="include\OWPML\Class\Head\extendLineheightToParaBorderOffset.h" />
+    <ClInclude Include="include\OWPML\Class\Head\extendVertLimitToPageMargins.h" />
+    <ClInclude Include="include\OWPML\Class\Head\fixedUnderlineWidth.h" />
+    <ClInclude Include="include\OWPML\Class\Head\font.h" />
+    <ClInclude Include="include\OWPML\Class\Head\fontfaces.h" />
+    <ClInclude Include="include\OWPML\Class\Head\FontfaceType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\fontRef.h" />
+    <ClInclude Include="include\OWPML\Class\Head\ForbiddenWordListType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\heading.h" />
+    <ClInclude Include="include\OWPML\Class\Head\HWPMLHeadType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\italic.h" />
+    <ClInclude Include="include\OWPML\Class\Head\layoutCompatibility.h" />
+    <ClInclude Include="include\OWPML\Class\Head\lineSpacing.h" />
+    <ClInclude Include="include\OWPML\Class\Head\MappingTableType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\margin.h" />
+    <ClInclude Include="include\OWPML\Class\Head\memoProperties.h" />
+    <ClInclude Include="include\OWPML\Class\Head\MemoShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\numberings.h" />
+    <ClInclude Include="include\OWPML\Class\Head\NumberingType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\offset.h" />
+    <ClInclude Include="include\OWPML\Class\Head\outline.h" />
+    <ClInclude Include="include\OWPML\Class\Head\overlapBothAllowOverlap.h" />
+    <ClInclude Include="include\OWPML\Class\Head\ParaHeadType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\paraProperties.h" />
+    <ClInclude Include="include\OWPML\Class\Head\ParaShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\ratio.h" />
+    <ClInclude Include="include\OWPML\Class\Head\relSz.h" />
+    <ClInclude Include="include\OWPML\Class\Head\shadow.h" />
+    <ClInclude Include="include\OWPML\Class\Head\SlashType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\spacing.h" />
+    <ClInclude Include="include\OWPML\Class\Head\strikeout.h" />
+    <ClInclude Include="include\OWPML\Class\Head\string.h" />
+    <ClInclude Include="include\OWPML\Class\Head\styles.h" />
+    <ClInclude Include="include\OWPML\Class\Head\StyleType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\subscript.h" />
+    <ClInclude Include="include\OWPML\Class\Head\substFont.h" />
+    <ClInclude Include="include\OWPML\Class\Head\supscript.h" />
+    <ClInclude Include="include\OWPML\Class\Head\TabDefType.h" />
+    <ClInclude Include="include\OWPML\Class\Head\tabItem.h" />
+    <ClInclude Include="include\OWPML\Class\Head\tabProperties.h" />
+    <ClInclude Include="include\OWPML\Class\Head\trackchange.h" />
+    <ClInclude Include="include\OWPML\Class\Head\trackchangeConfig.h" />
+    <ClInclude Include="include\OWPML\Class\Head\treatQuotationAsLatin.h" />
+    <ClInclude Include="include\OWPML\Class\Head\typeInfo.h" />
+    <ClInclude Include="include\OWPML\Class\Head\underline.h" />
+    <ClInclude Include="include\OWPML\Class\Head\useInnerUnderline.h" />
+    <ClInclude Include="include\OWPML\Class\Head\useLowercaseStrikeout.h" />
+    <ClInclude Include="include\OWPML\Class\MapMacro.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AbstractButtonObjectType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AbstractDrawingObjectType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AbstractFormObjectType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AbstractShapeComponentType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AbstractShapeObjectType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\alpha.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ArcType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AutoNumFormatType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\AutoNumNewNumType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\bookmark.h" />
+    <ClInclude Include="include\OWPML\Class\Para\booleanParam.h" />
+    <ClInclude Include="include\OWPML\Class\Para\caption.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cellAddr.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cellMargin.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cellSpan.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cellSz.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cellzone.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cellzoneList.h" />
+    <ClInclude Include="include\OWPML\Class\Para\charPr.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ChartType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\cmyk.h" />
+    <ClInclude Include="include\OWPML\Class\Para\colLine.h" />
+    <ClInclude Include="include\OWPML\Class\Para\colSz.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ColumnDefType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ComboBoxType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\compose.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ConnectLineType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ConnectPointType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ContainerType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ctrl.h" />
+    <ClInclude Include="include\OWPML\Class\Para\curSz.h" />
+    <ClInclude Include="include\OWPML\Class\Para\CurveType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\drawText.h" />
+    <ClInclude Include="include\OWPML\Class\Para\dutmal.h" />
+    <ClInclude Include="include\OWPML\Class\Para\EditType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\effect.h" />
+    <ClInclude Include="include\OWPML\Class\Para\EffectsColorType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\EffectsType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\EllipseType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\EndNoteShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\EquationType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\fieldBegin.h" />
+    <ClInclude Include="include\OWPML\Class\Para\fieldEnd.h" />
+    <ClInclude Include="include\OWPML\Class\Para\firstKey.h" />
+    <ClInclude Include="include\OWPML\Class\Para\flip.h" />
+    <ClInclude Include="include\OWPML\Class\Para\floatParam.h" />
+    <ClInclude Include="include\OWPML\Class\Para\FootNoteShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\formCharPr.h" />
+    <ClInclude Include="include\OWPML\Class\Para\fwSpace.h" />
+    <ClInclude Include="include\OWPML\Class\Para\glow.h" />
+    <ClInclude Include="include\OWPML\Class\Para\GraphType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\grid.h" />
+    <ClInclude Include="include\OWPML\Class\Para\HeaderFooterType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\hiddenComment.h" />
+    <ClInclude Include="include\OWPML\Class\Para\hypen.h" />
+    <ClInclude Include="include\OWPML\Class\Para\imgClip.h" />
+    <ClInclude Include="include\OWPML\Class\Para\imgDim.h" />
+    <ClInclude Include="include\OWPML\Class\Para\imgRect.h" />
+    <ClInclude Include="include\OWPML\Class\Para\indexmark.h" />
+    <ClInclude Include="include\OWPML\Class\Para\InsideMarginType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\integerParam.h" />
+    <ClInclude Include="include\OWPML\Class\Para\label.h" />
+    <ClInclude Include="include\OWPML\Class\Para\lineBreak.h" />
+    <ClInclude Include="include\OWPML\Class\Para\LineShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\LineType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ListBoxType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ListItemType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\mainText.h" />
+    <ClInclude Include="include\OWPML\Class\Para\markpenBegin.h" />
+    <ClInclude Include="include\OWPML\Class\Para\markpenEnd.h" />
+    <ClInclude Include="include\OWPML\Class\Para\masterPage.h" />
+    <ClInclude Include="include\OWPML\Class\Para\MetaTag.h" />
+    <ClInclude Include="include\OWPML\Class\Para\nbSpace.h" />
+    <ClInclude Include="include\OWPML\Class\Para\noteLine.h" />
+    <ClInclude Include="include\OWPML\Class\Para\NoteShapeType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\noteSpacing.h" />
+    <ClInclude Include="include\OWPML\Class\Para\NoteType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\numbering.h" />
+    <ClInclude Include="include\OWPML\Class\Para\OLEType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\orgSz.h" />
+    <ClInclude Include="include\OWPML\Class\Para\outMargin.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pageBorderFill.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pageHiding.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pageNum.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pageNumCtrl.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pagePr.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ParaListType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ParameterList.h" />
+    <ClInclude Include="include\OWPML\Class\Para\PictureType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\placement.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pmargin.h" />
+    <ClInclude Include="include\OWPML\Class\Para\poffset.h" />
+    <ClInclude Include="include\OWPML\Class\Para\PolygonType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pos.h" />
+    <ClInclude Include="include\OWPML\Class\Para\poutline.h" />
+    <ClInclude Include="include\OWPML\Class\Para\presentation.h" />
+    <ClInclude Include="include\OWPML\Class\Para\pshadow.h" />
+    <ClInclude Include="include\OWPML\Class\Para\PType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\RectangleType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\reflection.h" />
+    <ClInclude Include="include\OWPML\Class\Para\renderingInfo.h" />
+    <ClInclude Include="include\OWPML\Class\Para\rgb.h" />
+    <ClInclude Include="include\OWPML\Class\Para\rotationInfo.h" />
+    <ClInclude Include="include\OWPML\Class\Para\RunType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ScaleType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\scheme.h" />
+    <ClInclude Include="include\OWPML\Class\Para\script.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ScrollBarType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\secondKey.h" />
+    <ClInclude Include="include\OWPML\Class\Para\SectionDefinitionType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\seg.h" />
+    <ClInclude Include="include\OWPML\Class\Para\ShadowType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\shapeComment.h" />
+    <ClInclude Include="include\OWPML\Class\Para\SkewType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\softEdge.h" />
+    <ClInclude Include="include\OWPML\Class\Para\startNum.h" />
+    <ClInclude Include="include\OWPML\Class\Para\stringParam.h" />
+    <ClInclude Include="include\OWPML\Class\Para\subText.h" />
+    <ClInclude Include="include\OWPML\Class\Para\system.h" />
+    <ClInclude Include="include\OWPML\Class\Para\sz.h" />
+    <ClInclude Include="include\OWPML\Class\Para\t.h" />
+    <ClInclude Include="include\OWPML\Class\Para\tab.h" />
+    <ClInclude Include="include\OWPML\Class\Para\TableType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\tc.h" />
+    <ClInclude Include="include\OWPML\Class\Para\text.h" />
+    <ClInclude Include="include\OWPML\Class\Para\textart.h" />
+    <ClInclude Include="include\OWPML\Class\Para\textartPr.h" />
+    <ClInclude Include="include\OWPML\Class\Para\textMargin.h" />
+    <ClInclude Include="include\OWPML\Class\Para\titleMark.h" />
+    <ClInclude Include="include\OWPML\Class\Para\tr.h" />
+    <ClInclude Include="include\OWPML\Class\Para\trackchangetag.h" />
+    <ClInclude Include="include\OWPML\Class\Para\UnknownObjectType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\VideoType.h" />
+    <ClInclude Include="include\OWPML\Class\Para\visibility.h" />
+    <ClInclude Include="include\OWPML\Class\RDF\RDF.h" />
+    <ClInclude Include="include\OWPML\Document.h" />
+    <ClInclude Include="include\OWPML\Expat\amigaconfig.h" />
+    <ClInclude Include="include\OWPML\Expat\ascii.h" />
+    <ClInclude Include="include\OWPML\Expat\asciitab.h" />
+    <ClInclude Include="include\OWPML\Expat\expat.h" />
+    <ClInclude Include="include\OWPML\Expat\expat_external.h" />
+    <ClInclude Include="include\OWPML\Expat\iasciitab.h" />
+    <ClInclude Include="include\OWPML\Expat\internal.h" />
+    <ClInclude Include="include\OWPML\Expat\latin1tab.h" />
+    <ClInclude Include="include\OWPML\Expat\macconfig.h" />
+    <ClInclude Include="include\OWPML\Expat\nametab.h" />
+    <ClInclude Include="include\OWPML\Expat\utf8tab.h" />
+    <ClInclude Include="include\OWPML\Expat\winconfig.h" />
+    <ClInclude Include="include\OWPML\Expat\xmlrole.h" />
+    <ClInclude Include="include\OWPML\Expat\xmltok.h" />
+    <ClInclude Include="include\OWPML\Expat\xmltok_impl.h" />
+    <ClInclude Include="include\OWPML\Hwp\include\HwpMetatagDef.h" />
+    <ClInclude Include="include\OWPML\OWPML.h" />
+    <ClInclude Include="include\OWPML\OwpmlForDec.h" />
+    <ClInclude Include="include\OWPML\stdafx.h" />
+    <ClInclude Include="include\OWPML\Zip\encrypt.h" />
+    <ClInclude Include="include\OWPML\Zip\SDZip.h" />
+    <ClInclude Include="include\OWPML\Zip\unzip.h" />
+    <ClInclude Include="include\OWPML\Zip\zip.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="lib\Owpml.pdb" />
+    <None Include="lib\OWPMLApi.pdb" />
+    <None Include="lib\OWPMLUtil.pdb" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
