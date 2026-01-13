@@ -136,6 +136,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\HwpxConverter.h" />
+    <ClInclude Include="include\MarkdownEngine.h" />
+    <ClInclude Include="include\MarkdownRules.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLApi.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLDocument.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLDocumentDef.h" />
@@ -491,6 +493,7 @@
     <ClInclude Include="include\OWPML\Zip\SDZip.h" />
     <ClInclude Include="include\OWPML\Zip\unzip.h" />
     <ClInclude Include="include\OWPML\Zip\zip.h" />
+    <ClInclude Include="include\SDK_Wrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

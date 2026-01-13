@@ -1042,9 +1042,6 @@
     <ClInclude Include="include\OWPMLUtil\cipher.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\OWPMLUtil\HncAES.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="include\OWPMLUtil\HncAlloca.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -1091,6 +1088,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\HwpxConverter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OWPMLUtil\HncAES.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MarkdownEngine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SDK_Wrapper.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MarkdownRules.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
