@@ -70,6 +70,18 @@ bool ConvertHwpxToHtml(
         }
     }
 
+    // =====================================================================
+// [PARA LEVEL STYLE LOG TEST] START
+// 문단(CPType)에서 engName을 추출하고
+// "매핑됨 / 미매핑" 분류해서 집계하는 테스트용 로거
+// =====================================================================            
+
+     Html::DumpStyleLogToConsole();
+
+    // =====================================================================
+    // [PARA LEVEL STYLE LOG TEST] END
+    // =====================================================================
+
     // HTML 문서 래핑
     std::wstring html;
     html += L"<!doctype html>\n<html>\n<head>\n<meta charset=\"utf-8\"/>\n</head>\n<body>\n";

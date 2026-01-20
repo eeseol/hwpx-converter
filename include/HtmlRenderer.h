@@ -1,4 +1,6 @@
 #pragma once
+#include <map>
+#include <iostream>
 #include <string>
 #include <cwctype>
 #include "SDK_Wrapper.h"
@@ -35,6 +37,81 @@ namespace Html {
         // Outline 7~10은 p로 처리
         return L"p";
     }
+
+    // =====================================================================
+// [PARA LEVEL STYLE LOG TEST] START
+// 문단(CPType)에서 engName을 추출하고
+// "매핑됨 / 미매핑" 분류해서 집계하는 테스트용 로거
+// =====================================================================
+
+// engName -> 등장 횟수
+    inline std::map<std::wstring, int>& StyleSeenAll()
+    {
+        static std::map<std::wstring, int> m;
+        return m;
+    }
+
+    inline std::map<std::wstring, int>& StyleSeenMapped()
+    {
+        static std::map<std::wstring, int> m;
+        return m;
+    }
+
+    inline std::map<std::wstring, int>& StyleSeenUnmapped()
+    {
+        static std::map<std::wstring, int> m;
+        return m;
+    }
+
+    // "매핑했다"의 기준을 너 프로젝트 기준으로 정의
+    // 지금은 Outline(1~10), Normal, Body 까지만 "매핑됨"으로 본다.
+    inline bool IsMappedEngName(const std::wstring& engName)
+    {
+        // Outline N 형태면 매핑된 것으로 처리 (1~10 전부)
+        // (너는 1~6은 h태그, 7~10은 p class로 처리 중이니까)
+        if (engName.rfind(L"Outline ", 0) == 0) return true;
+
+        // 기본 문단 스타일
+        if (engName == L"Normal") return true;
+        if (engName == L"Body") return true;
+
+        // 나중에 추가할 애들 예시 (원하면 주석 해제)
+        // if (engName == L"Caption") return true;
+        // if (engName.rfind(L"TOC", 0) == 0) return true;
+
+        return false;
+    }
+
+    inline void LogParaStyle(const std::wstring& engName)
+    {
+        StyleSeenAll()[engName]++;
+
+        if (IsMappedEngName(engName))
+            StyleSeenMapped()[engName]++;
+        else
+            StyleSeenUnmapped()[engName]++;
+    }
+
+    // 변환 끝나고 summary 출력 (콘솔)
+    inline void DumpStyleLogToConsole()
+    {
+        std::wcout << L"\n================== STYLE LOG SUMMARY ==================\n";
+        std::wcout << L"[ALL] count=" << StyleSeenAll().size() << L"\n";
+        std::wcout << L"[MAPPED] count=" << StyleSeenMapped().size() << L"\n";
+        std::wcout << L"[UNMAPPED] count=" << StyleSeenUnmapped().size() << L"\n\n";
+
+        std::wcout << L"------------------ UNMAPPED STYLES ------------------\n";
+        for (auto& kv : StyleSeenUnmapped())
+        {
+            std::wcout << L"- " << kv.first << L" : " << kv.second << L"\n";
+        }
+        std::wcout << L"======================================================\n";
+    }
+
+    // =====================================================================
+    // [PARA LEVEL STYLE LOG TEST] END
+    // =====================================================================
+
 
     // class명을 우리가 원하는 방식으로 정리
     // 예: "Outline 4" -> "outline-4"
@@ -101,6 +178,18 @@ namespace Html {
 
             // class명 정규화 (Outline 4 -> outline-4)
             const std::wstring cls = NormalizeClassName(engName);
+
+            // =====================================================================
+            // [PARA LEVEL STYLE LOG TEST] START
+            // 문단(CPType)에서 engName을 추출하고
+            // "매핑됨 / 미매핑" 분류해서 집계하는 테스트용 로거
+            // =====================================================================            
+            
+            LogParaStyle(engName);
+
+            // =====================================================================
+            // [PARA LEVEL STYLE LOG TEST] END
+            // =====================================================================
 
             InPara() = true;
             ParaTag() = tag;
