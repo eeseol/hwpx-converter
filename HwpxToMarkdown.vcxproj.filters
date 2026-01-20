@@ -18,6 +18,12 @@
     <ClCompile Include="src\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="include\HwpxConverter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="include\SDK_Wrapper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\Owpml.lib" />
@@ -1093,13 +1099,16 @@
     <ClInclude Include="include\OWPMLUtil\HncAES.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\MarkdownEngine.h">
+    <ClInclude Include="include\DocumentWalker.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\SDK_Wrapper.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\MarkdownRules.h">
+    <ClInclude Include="include\HtmlRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OwpmSDKPrelude.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

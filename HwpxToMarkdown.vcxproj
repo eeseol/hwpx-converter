@@ -92,6 +92,8 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\HwpxConverter.cpp" />
+    <ClCompile Include="include\SDK_Wrapper.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,8 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\HwpxConverter.h" />
-    <ClInclude Include="include\MarkdownEngine.h" />
-    <ClInclude Include="include\MarkdownRules.h" />
+    <ClInclude Include="include\DocumentWalker.h" />
+    <ClInclude Include="include\HtmlRenderer.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLApi.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLDocument.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLDocumentDef.h" />
@@ -493,6 +497,7 @@
     <ClInclude Include="include\OWPML\Zip\SDZip.h" />
     <ClInclude Include="include\OWPML\Zip\unzip.h" />
     <ClInclude Include="include\OWPML\Zip\zip.h" />
+    <ClInclude Include="include\OwpmSDKPrelude.h" />
     <ClInclude Include="include\SDK_Wrapper.h" />
   </ItemGroup>
   <ItemGroup>
