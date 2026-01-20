@@ -1,3 +1,5 @@
+#define DEBUG_PARA_LOG 0
+
 #include "OwpmSDKPrelude.h"
 #include "HwpxConverter.h"
 
@@ -70,11 +72,20 @@ bool ConvertHwpxToHtml(
         }
     }
 
+    //PARA 디버깅 코드
+    #if DEBUG_PARA_LOG
+
+    Html::DumpStyleLogToConsole();
+
+    #endif // DEBUG_PARA_LOG
+
+
     // HTML 문서 래핑
     std::wstring html;
-    html += L"<!doctype html>\n<html>\n<head>\n<meta charset=\"utf-8\"/>\n</head>\n<body>\n";
-    html += out;
-    html += L"\n</body>\n</html>\n";
+    Html::BeginHtmlDocument(html);   // 여기서 head + body 시작까지
+    html += out;                     // 본문(테이블/문단들)
+    Html::EndHtmlDocument(html);   // body/html 닫기
+
 
     // 4) 저장
     const bool ok = WriteUtf8File(outputPath, html);
