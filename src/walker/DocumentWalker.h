@@ -17,8 +17,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "SDK_Wrapper.h"
-#include "HtmlRenderer.h"
+#include "sdk/OwpmSDKPrelude.h"
+#include "sdk/SDK_Wrapper.h"
+#include "render/HtmlRenderer.h"
 
 #include "OWPML/Class/Para/tc.h"
 #include "OWPML/Class/Para/cellSpan.h"

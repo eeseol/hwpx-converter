@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);OS_WIN</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\src</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -132,8 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="include\HwpxConverter.cpp" />
-    <ClCompile Include="include\SDK_Wrapper.cpp" />
+    <ClCompile Include="src\app\HwpxConverter.cpp" />
+    <ClCompile Include="src\sdk\SDK_Wrapper.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +142,9 @@
     <Library Include="lib\OWPMLUtil.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\HwpxConverter.h" />
-    <ClInclude Include="include\DocumentWalker.h" />
-    <ClInclude Include="include\HtmlRenderer.h" />
+    <ClInclude Include="src\app\HwpxConverter.h" />
+    <ClInclude Include="src\walker\DocumentWalker.h" />
+    <ClInclude Include="src\render\HtmlRenderer.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLApi.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLDocument.h" />
     <ClInclude Include="include\OWPMLApi\OWPMLDocumentDef.h" />
@@ -500,8 +500,8 @@
     <ClInclude Include="include\OWPML\Zip\SDZip.h" />
     <ClInclude Include="include\OWPML\Zip\unzip.h" />
     <ClInclude Include="include\OWPML\Zip\zip.h" />
-    <ClInclude Include="include\OwpmSDKPrelude.h" />
-    <ClInclude Include="include\SDK_Wrapper.h" />
+    <ClInclude Include="src\sdk\OwpmSDKPrelude.h" />
+    <ClInclude Include="src\sdk\SDK_Wrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

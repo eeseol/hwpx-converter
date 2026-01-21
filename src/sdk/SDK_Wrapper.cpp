@@ -1,6 +1,6 @@
 #include <cwctype>
-#include "OwpmSDKPrelude.h"
-#include "SDK_Wrapper.h"
+#include "sdk/OwpmSDKPrelude.h"
+#include "sdk/SDK_Wrapper.h"
 
 // 세부 클래스 헤더 (스타일 파싱용)
 #include "OWPML/Class/Head/styles.h"

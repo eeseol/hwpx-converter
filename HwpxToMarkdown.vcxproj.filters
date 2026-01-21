@@ -18,10 +18,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="include\HwpxConverter.cpp">
+    <ClCompile Include="src\app\HwpxConverter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="include\SDK_Wrapper.cpp">
+    <ClCompile Include="src\sdk\SDK_Wrapper.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1093,22 +1093,22 @@
     <ClInclude Include="include\OWPML\Zip\zip.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\HwpxConverter.h">
+    <ClInclude Include="src\app\HwpxConverter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\OWPMLUtil\HncAES.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\DocumentWalker.h">
+    <ClInclude Include="src\walker\DocumentWalker.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\SDK_Wrapper.h">
+    <ClInclude Include="src\sdk\SDK_Wrapper.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\HtmlRenderer.h">
+    <ClInclude Include="src\render\HtmlRenderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\OwpmSDKPrelude.h">
+    <ClInclude Include="src\sdk\OwpmSDKPrelude.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
