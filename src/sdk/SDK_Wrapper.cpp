@@ -2,13 +2,6 @@
 #include "sdk/OwpmSDKPrelude.h"
 #include "sdk/SDK_Wrapper.h"
 
-// 세부 클래스 헤더 (스타일 파싱용)
-#include "OWPML/Class/Head/styles.h"
-#include "OWPML/Class/Head/StyleType.h"
-#include "OWPML/Class/Para/PType.h"
-#include "OWPML/Class/Para/t.h"
-#include "OWPML/Class/Para/text.h"
-
 namespace {
     std::map<unsigned int, std::wstring> g_styleMap;
 

@@ -2,9 +2,7 @@
 /lib
 /HwpxToMarkdown
 /Release
-/include/OWPML
-/include/OWPMLApi
-/include/OWPMLUtil
+/include
 
 ### C ###
 # Prerequisites
