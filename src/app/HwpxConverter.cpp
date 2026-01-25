@@ -7,10 +7,6 @@
 #include "walker/DocumentWalker.h"
 #include "sdk/SDK_Wrapper.h"
 
-// 스타일 접근용
-#include "OWPML/Class/Head/HWPMLHeadType.h"
-#include "OWPML/Class/Head/MappingTableType.h"
-#include "OWPML/Class/Head/styles.h"
 
 static bool WriteUtf8File(const std::wstring& path, const std::wstring& content) {
     // wchar -> utf8
