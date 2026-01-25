@@ -13,10 +13,6 @@
 #include "sdk/SDK_Wrapper.h"
 #include "render/HtmlRenderer.h"
 
-#include "OWPML/Class/Para/cellAddr.h"
-#include "OWPML/Class/Para/cellSpan.h"
-#include "OWPML/Class/Para/tc.h"
-
 namespace
 {
     struct CellPos

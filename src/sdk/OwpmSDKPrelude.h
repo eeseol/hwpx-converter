@@ -41,3 +41,21 @@
 #include "OWPMLUtil/HncDefine.h"
 #include "OWPML/OWPML.h"
 #include "OWPML/OwpmlForDec.h"
+
+// ===== 4) 한컴 SDK - Head/Styles 쪽 타입 보강 (HwpxConverter.cpp에서 빼낸 것들) =====
+#include "OWPML/Class/Head/HWPMLHeadType.h"
+#include "OWPML/Class/Head/MappingTableType.h"
+#include "OWPML/Class/Head/styles.h"
+
+// 세부 클래스 헤더 (스타일 파싱용)
+#include "OWPML/Class/Head/StyleType.h"
+#include "OWPML/Class/Para/PType.h"
+#include "OWPML/Class/Para/t.h"
+#include "OWPML/Class/Para/text.h"
+
+#include "OWPML/Class/Para/cellAddr.h"
+#include "OWPML/Class/Para/cellSpan.h"
+#include "OWPML/Class/Para/tc.h"
+
+#include "OWPML/Class/Para/cellAddr.h"
+#include "OWPML/Class/Para/cellSpan.h"

@@ -7,9 +7,6 @@
 #include "sdk/OwpmSDKPrelude.h"
 #include "sdk/SDK_Wrapper.h"
 
-#include "OWPML/Class/Para/cellAddr.h"
-#include "OWPML/Class/Para/cellSpan.h"
-
 namespace
 {
     std::map<unsigned int, int>& SeenIdOnce()
