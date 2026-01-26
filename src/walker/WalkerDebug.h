@@ -16,4 +16,7 @@ namespace WalkerDebug
 
     // 덤프: cellWrapper 내부 child ID들 출력 + cellAddr/span 확인
     void DumpCellWrapperChildren(OWPML::CObject* cellWrapper, int r, int c, int depth);
+
+    void DumpSubtreeSafe(OWPML::CObject* root, int absDepth, int maxNodes);
+
 }

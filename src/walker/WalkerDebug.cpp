@@ -3,6 +3,7 @@
 
 #include <map>
 #include <iostream>
+#include <vector>
 
 #include "sdk/OwpmSDKPrelude.h"
 #include "sdk/SDK_Wrapper.h"
@@ -159,6 +160,63 @@ namespace WalkerDebug
         }
 
         std::wcout << L"[CELL_WRAPPER] END\n";
+        std::wcout.flush();
+    }
+
+    void DumpSubtreeSafe(OWPML::CObject* root, int absDepth, int maxNodes)
+    {
+        if (!root) return;
+        if (maxNodes <= 0) maxNodes = 300;
+
+        struct Frame
+        {
+            OWPML::CObject* node;
+            int abs;
+            int rel;
+        };
+
+        std::vector<Frame> st;
+        st.reserve(1024);
+        st.push_back({ root, absDepth, 0 });
+
+        int printed = 0;
+
+        while (!st.empty() && printed < maxNodes)
+        {
+            Frame cur = st.back();
+            st.pop_back();
+
+            if (!cur.node) continue;
+            if (cur.rel > WalkerConfig::DUMP_MAX_REL_DEPTH) continue;
+
+            const unsigned int id = SDK::GetID(cur.node);
+            const int childCount = CountChildrenByObjectList(cur.node);
+
+            for (int i = 0; i < cur.rel; ++i) std::wcout << L"  ";
+
+            std::wcout
+                << L"[DUMP_SAFE] absDepth=" << cur.abs
+                << L" rel=" << cur.rel
+                << L" id=" << id
+                << L" childCount=" << childCount
+                << L" ptr=0x" << (void*)cur.node
+                << L"\n";
+
+            printed++;
+
+            auto list = cur.node->GetObjectList();
+            if (!list) continue;
+
+            // 출력 순서 유지하려고 역순 push
+            std::vector<OWPML::CObject*> children;
+            children.reserve(list->size());
+            for (auto* ch : *list) children.push_back(ch);
+
+            for (int i = (int)children.size() - 1; i >= 0; --i)
+                st.push_back({ children[i], cur.abs + 1, cur.rel + 1 });
+        }
+
+        std::wcout << L"[DUMP_SAFE] printed=" << printed << L"/" << maxNodes << L"\n";
         std::wcout.flush();
     }
 

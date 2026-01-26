@@ -1,10 +1,16 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 
 namespace OWPML {
     class CPType;
     class CT;
+}
+
+namespace SDK {
+    struct ListInfo;
+    enum class ListKind : std::uint8_t;
 }
 
 namespace Html {
@@ -14,17 +20,23 @@ namespace Html {
     // ===========================
     enum class CellBreakMode
     {
-        Space,    // " "
-        Newline,  // "\n"
-        BrTag     // "<br/>"
+        Space,
+        Newline,
+        BrTag
     };
 
-    // CellMode ฐüทร
     void SetCellMode(bool on);
     bool IsCellMode();
 
     void SetCellBreakMode(CellBreakMode mode);
     void SetCellParagraphMode(CellBreakMode mode);
+
+    // ===========================
+    // List state machine
+    // ===========================
+    void EnsureListOpen(std::wstring& out, const SDK::ListInfo& info);
+    void FlushList(std::wstring& out);
+    void BeginListItemMode(const SDK::ListInfo& info);
 
     // Paragraph lifecycle
     void BeginParagraph(OWPML::CPType* para);

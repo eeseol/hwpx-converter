@@ -20,15 +20,10 @@ namespace Html {
 
     static CellBreakMode& CellBreakPolicy()
     {
-        // 기본값: 셀 안에서도 줄바꿈을 "보이게" 하려면 BrTag가 가장 안정적
         static CellBreakMode mode = CellBreakMode::BrTag;
         return mode;
     }
 
-    // 셀 안에서 "문단 경계"를 어떻게 처리할지
-    // - BrTag: 문단 끝마다 <br/>
-    // - Space: 문단 끝마다 공백
-    // - Newline: 문단 끝마다 \n
     static CellBreakMode& CellParagraphPolicy()
     {
         static CellBreakMode mode = CellBreakMode::BrTag;
@@ -44,11 +39,7 @@ namespace Html {
     void SetCellMode(bool on)
     {
         CellMode() = on;
-        if (on)
-        {
-            // td 들어갈 때 상태 초기화
-            CellHasWrittenText() = false;
-        }
+        if (on) CellHasWrittenText() = false;
     }
 
     bool IsCellMode()
@@ -86,7 +77,18 @@ namespace Html {
         }
     }
 
-    // Extract level from styles like "Outline 4" -> 4, otherwise 0
+    static bool HasMeaningfulText(const std::wstring& s)
+    {
+        for (wchar_t ch : s)
+        {
+            if (!iswspace(ch)) return true;
+        }
+        return false;
+    }
+
+    // ===========================
+    // Outline style mapping
+    // ===========================
     static int ExtractOutlineLevel(const std::wstring& engName)
     {
         const std::wstring prefix = L"Outline ";
@@ -101,18 +103,22 @@ namespace Html {
         return level;
     }
 
-    // Outline -> HTML tag mapping
     static std::wstring MapEngNameToTag(const std::wstring& engName)
     {
         const int level = ExtractOutlineLevel(engName);
-
-        // Outline 1~6 => h1~h6
-        if (level >= 1 && level <= 6) {
+        if (level >= 1 && level <= 6)
             return L"h" + std::to_wstring(level);
-        }
 
-        // Outline 7~10 (or anything else) => paragraph
         return L"p";
+    }
+
+    static std::wstring NormalizeClassName(const std::wstring& engName)
+    {
+        const int level = ExtractOutlineLevel(engName);
+        if (level >= 1 && level <= 10)
+            return L"outline-" + std::to_wstring(level);
+
+        return engName;
     }
 
     // ===========================
@@ -147,7 +153,6 @@ namespace Html {
     static void LogParaStyle(const std::wstring& engName)
     {
         StyleSeenAll()[engName]++;
-
         if (IsMappedEngName(engName))
             StyleSeenMapped()[engName]++;
         else
@@ -163,36 +168,13 @@ namespace Html {
 
         std::wcout << L"------------------ UNMAPPED STYLES ------------------\n";
         for (auto& kv : StyleSeenUnmapped())
-        {
             std::wcout << L"- " << kv.first << L" : " << kv.second << L"\n";
-        }
+
         std::wcout << L"======================================================\n";
     }
 
-    // class name normalize
-    // Example: "Outline 4" -> "outline-4"
-    static std::wstring NormalizeClassName(const std::wstring& engName)
-    {
-        const int level = ExtractOutlineLevel(engName);
-        if (level >= 1 && level <= 10) {
-            return L"outline-" + std::to_wstring(level);
-        }
-
-        // Keep original for now (Normal, Body, etc.)
-        return engName;
-    }
-
-    // Check if a string has any non-whitespace
-    static bool HasMeaningfulText(const std::wstring& s)
-    {
-        for (wchar_t ch : s) {
-            if (!iswspace(ch)) return true;
-        }
-        return false;
-    }
-
     // ===========================
-    // Paragraph state (temporary)
+    // Paragraph state
     // ===========================
     static bool& InPara()
     {
@@ -218,7 +200,81 @@ namespace Html {
         return buf;
     }
 
-    // Called when entering a paragraph
+    // ===========================
+    // List state machine
+    // ===========================
+    static bool& InList()
+    {
+        static bool inList = false;
+        return inList;
+    }
+
+    static SDK::ListKind& CurListKind()
+    {
+        static SDK::ListKind k = SDK::ListKind::None;
+        return k;
+    }
+
+    static std::uint32_t& CurListIdRef()
+    {
+        static std::uint32_t v = 0;
+        return v;
+    }
+
+    static bool& ParaIsListItem()
+    {
+        static bool v = false;
+        return v;
+    }
+
+    void EnsureListOpen(std::wstring& out, const SDK::ListInfo& info)
+    {
+        if (IsCellMode()) return;                 // 테이블 셀은 일단 무시
+        if (info.kind == SDK::ListKind::None) return;
+        if (info.idRef == 0) return;              // ★ 핵심: idRef==0이면 열지 않음
+
+        // 다른 리스트로 바뀌면 닫고 다시 열기
+        if (InList())
+        {
+            if (CurListKind() != info.kind || CurListIdRef() != info.idRef)
+            {
+                out += L"</ol>\n";
+                InList() = false;
+                CurListKind() = SDK::ListKind::None;
+                CurListIdRef() = 0;
+            }
+        }
+
+        if (!InList())
+        {
+            // 정책: numbering/bullet 상관없이 ol로만 열고 CSS로 점 처리
+            out += L"<ol class=\"hwpx-ol-dot\">\n";
+            InList() = true;
+            CurListKind() = info.kind;
+            CurListIdRef() = info.idRef;
+        }
+    }
+
+    void FlushList(std::wstring& out)
+    {
+        if (!InList()) return;
+        out += L"</ol>\n";
+        InList() = false;
+        CurListKind() = SDK::ListKind::None;
+        CurListIdRef() = 0;
+    }
+
+    void BeginListItemMode(const SDK::ListInfo& info)
+    {
+        if (IsCellMode()) { ParaIsListItem() = false; return; }
+        if (info.kind == SDK::ListKind::None) { ParaIsListItem() = false; return; }
+        if (info.idRef == 0) { ParaIsListItem() = false; return; } // ★ 핵심
+        ParaIsListItem() = true;
+    }
+
+    // ===========================
+    // Paragraph lifecycle
+    // ===========================
     void BeginParagraph(OWPML::CPType* para)
     {
         if (!para) return;
@@ -235,7 +291,6 @@ namespace Html {
         ParaBuffer().clear();
     }
 
-    // Handle text run (CT) inside a paragraph
     void ProcessText(OWPML::CT* text)
     {
         if (!text || !InPara()) return;
@@ -254,7 +309,6 @@ namespace Html {
             }
             else if (childID == ID_PARA_LineBreak)
             {
-                // 줄바꿈(명시적 LineBreak)은 셀 모드든 아니든 정책에 따라 처리
                 if (!IsCellMode())
                 {
                     ParaBuffer() += L"<br/>";
@@ -267,44 +321,52 @@ namespace Html {
         }
     }
 
-    // Some documents use LineSeg as a logical line boundary
-    // 실제 문서에서 줄바꿈이 LineBreak가 아니라 LineSeg로 더 많이 나올 수 있음
     void ProcessLineSeg()
     {
         if (!InPara()) return;
     }
 
-    // Called when leaving a paragraph
     void EndParagraph(std::wstring& out)
     {
         if (!InPara()) return;
 
-        if (HasMeaningfulText(ParaBuffer()))
+        const bool hasText = HasMeaningfulText(ParaBuffer());
+
+        if (hasText)
         {
             if (IsCellMode())
             {
-                // 셀 내부: 문단 여러 개가 "붙어버리는 문제" 방지
-                // - 이전 문단 텍스트가 이미 찍혔다면, 문단 경계 구분자를 먼저 넣는다.
                 if (CellHasWrittenText())
                 {
                     std::wstring sep;
                     AppendBreak(sep, CellParagraphPolicy());
                     out += sep;
                 }
-
                 out += ParaBuffer();
                 CellHasWrittenText() = true;
             }
             else
             {
-                // 셀 밖: 기존대로 <p/h1..> 태그 생성
-                out += L"<" + ParaTag() + L" class=\"" + ParaClass() + L"\">";
-                out += ParaBuffer();
-                out += L"</" + ParaTag() + L">\n";
+                // ★ 리스트 문단이면 li로만 출력
+                if (ParaIsListItem())
+                {
+                    out += L"<li>";
+                    out += ParaBuffer();
+                    out += L"</li>\n";
+                }
+                else
+                {
+                    out += L"<" + ParaTag() + L" class=\"" + ParaClass() + L"\">";
+                    out += ParaBuffer();
+                    out += L"</" + ParaTag() + L">\n";
+                }
             }
         }
+        // ★ 빈 문단이면 아무 것도 출력하지 않음 (빈 li 방지)
 
         InPara() = false;
+        ParaIsListItem() = false;
+
         ParaTag().clear();
         ParaClass().clear();
         ParaBuffer().clear();
@@ -323,6 +385,19 @@ th, td {
     padding: 6px 10px;
     text-align: left;
     vertical-align: top;
+}
+
+/* 핵심 정책:
+   - numbering/bullet 모두 <ol>로 열되
+   - 화면은 ul처럼 점만 보이게(번호 계산 X)
+*/
+.hwpx-ol-dot {
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 1.4em;
+}
+.hwpx-ol-dot > li {
+    margin: 0.2em 0;
 }
 </style>
 </head>

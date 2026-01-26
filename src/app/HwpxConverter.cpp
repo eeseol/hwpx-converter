@@ -7,8 +7,12 @@
 #include "walker/DocumentWalker.h"
 #include "sdk/SDK_Wrapper.h"
 
+#include <fstream>
+#include <string>
+#include <Windows.h>
 
-static bool WriteUtf8File(const std::wstring& path, const std::wstring& content) {
+static bool WriteUtf8File(const std::wstring& path, const std::wstring& content)
+{
     // wchar -> utf8
     int sizeNeeded = WideCharToMultiByte(
         CP_UTF8, 0,
@@ -38,24 +42,42 @@ bool ConvertHwpxToHtml(
     const std::wstring& inputPath,
     const std::wstring& outputPath,
     const ConvertOptions& opt
-) {
-    if (!opt.outputHtml) {
-        // 지금은 HTML만 지원
-        return false;
-    }
+)
+{
+    if (!opt.outputHtml) return false;
 
     // 1) 문서 열기
     OWPML::COwpmlDocumnet* doc = OWPML::COwpmlDocumnet::OpenDocument(inputPath.c_str());
     if (!doc) return false;
 
-    // 2) 스타일 맵 초기화 (head -> refList -> styles)
+    // 2) Head(refList) 초기화
     auto* head = doc->GetHead();
-    if (head) {
+    if (head)
+    {
         auto* refList = head->GetrefList();
-        if (refList) {
-            auto* styles = refList->Getstyles();
-            if (styles) {
+        if (refList)
+        {
+            // (1) styles
+            if (auto* styles = refList->Getstyles())
+            {
                 SDK::InitStyleMap(styles);
+            }
+
+            // (2) list meta
+            // 중요: numberings/bullets 먼저 -> paraProperties가 heading idRef를 보고 kind 추정
+            if (auto* numberings = refList->Getnumberings())
+            {
+                SDK::InitNumberings(numberings);
+            }
+
+            if (auto* bullets = refList->Getbullets())
+            {
+                SDK::InitBullets(bullets);
+            }
+
+            if (auto* paraProps = refList->GetparaProperties())
+            {
+                SDK::InitParaProperties(paraProps);
             }
         }
     }
@@ -63,28 +85,28 @@ bool ConvertHwpxToHtml(
     // 3) 변환 시작
     std::wstring out;
     auto* sections = doc->GetSections();
-    if (sections) {
-        for (auto* sec : *sections) {
+    if (sections)
+    {
+        for (auto* sec : *sections)
+        {
             ExtractText(sec, out);
         }
     }
 
-    //PARA 디버깅 코드
-    #if DEBUG_PARA_LOG
-
+#if DEBUG_PARA_LOG
     Html::DumpStyleLogToConsole();
+#endif
 
-    #endif // DEBUG_PARA_LOG
+    // 문서 끝에서 열려있을 수 있는 리스트 닫기
+    Html::FlushList(out);
 
-
-    // HTML 문서 래핑
+    // 4) HTML 문서 래핑
     std::wstring html;
-    Html::BeginHtmlDocument(html);   // 여기서 head + body 시작까지
-    html += out;                     // 본문(테이블/문단들)
-    Html::EndHtmlDocument(html);   // body/html 닫기
+    Html::BeginHtmlDocument(html);
+    html += out;
+    Html::EndHtmlDocument(html);
 
-
-    // 4) 저장
+    // 5) 저장
     const bool ok = WriteUtf8File(outputPath, html);
 
     delete doc;
