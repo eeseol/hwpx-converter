@@ -1,180 +1,154 @@
-⚠ 본 프로젝트는 현재 초기 개발 단계입니다.
-API 및 샘플 코드는 아직 안정화되지 않았습니다.
+# HwpxConverter
 
-# hwpx-owpml-model
+## 이 프로젝트는 무엇인가요?
 
-## 이 프로젝트는 무엇인가?
+`HwpxConverter`는 **HWPX(OWPML) 문서를 파싱해 HTML로 변환**하는 Windows용 변환기입니다.
+한컴에서 공개한 **OWPML SDK(라이브러리)** 를 사용해 문서 구조(섹션/문단/런/표 등)를 순회하며, 정보를 인식하기 좋은 형태로 HTML을 생성합니다.
 
-`hwpx-owpml-model`은 HWPX(OWPML) 문서를 구조적으로 파싱하고 모델링하기 위한 경량 라이브러리입니다.
+이 프로젝트는 다음 용도로 쓰기 좋습니다.
 
-이 프로젝트는 다음을 제공합니다:
-
-* OWPML(OOXML 기반) 문서 모델
-* 문서 엘리먼트(섹션, 문단, 런, 표 등)의 트리 구조 표현
-* 텍스트 및 레이아웃 정보를 추출할 수 있는 API
-
-본 라이브러리는 다음과 같은 용도로 사용되도록 설계되었습니다:
-
-* HWPX → Markdown 변환기
-* RAG(검색 기반 생성) 문서 전처리 파이프라인
-* 검색 및 인덱싱 시스템
-* AI 기반 문서 이해 및 요약
-
----
-
-## 왜 이 프로젝트가 필요한가?
-
-HWPX(OWPML)는 XML 기반의 강력한 포맷이지만 구조가 매우 복잡하여,
-RAG, 검색, 요약 등의 파이프라인에서 바로 사용하기 어렵습니다.
-
-이 프로젝트는:
-
-* OWPML을 구조화된 객체 모델로 변환하고
-* 섹션, 문단, 표 등의 요소를 안정적으로 순회할 수 있게 하여
-* 룰 기반 및 AI 기반 후처리가 가능하도록 합니다.
+* HWPX → HTML 변환(1차 목표)
+* RAG/검색 파이프라인용 전처리(HTML/텍스트 추출 기반)
+* 공공기관 문서(표/개요/리스트 등) 일괄 변환 테스트
 
 ---
 
 ## 주요 기능
 
-* OWPML(OOXML 스타일) 문서 모델
-* 섹션 및 엘리먼트 트리 구조
-* 문단 및 런 단위 텍스트 추출
-* 표 및 블록 요소 접근
-* 첫 번째 섹션에서 텍스트를 추출하는 샘플 코드 제공
+* 문서 텍스트 추출(Paragraph/TextRun 기반)
+* outline(개요 1-10) → h1-h6 등 태그 매핑
+* 표(table) 레이아웃 및 텍스트 렌더링
+* 리스트 렌더링(정책: **번호 계산 없이**, `<ol>` 유지 + 화면은 점만 보이게)
 
-⚠ 현재 샘플 코드는 **첫 번째 섹션만** 추출합니다.
-이는 예제 단순화를 위한 의도적인 제한입니다.
+
+<p align="center">
+    <img src="./docs/images/table1_html.png" width="80%">
+</p>
+
+출처 : 경찰청 공식 발간자료 (2026년도 미래치안도전기술개발사업 신규과제 선정계획 공고)
 
 ---
 
-## 시작하기 (Windows 빌드)
+## 지원/제한 사항
+
+* 입력: `.hwpx`만 지원합니다.
+* `.hwpx` 확장자여도 **표준 HWPX가 아니거나 손상된 파일**은 열리지 않을 수 있습니다.
+  (예: 구버전 HWP를 확장자만 바꾼 경우, 일부 기관 문서의 비표준/손상 케이스 등)
+* 현재는 Windows + Visual Studio 2022 환경을 기준으로 합니다.
+
+---
+
+## 1) 바로 사용하기 (GitHub Releases)
+
+소스 빌드 없이 실행 파일로 사용하려면 GitHub의 **Releases**에서 최신 버전의 실행 파일(`HwpxConverter.exe`)을 내려받아 실행하세요.
+
+예시:
+
+```bash
+HwpxConverter.exe "input.hwpx" "output.html"
+```
+
+* 경로/파일명에 공백이 있으면 따옴표로 감싸는 것을 권장합니다.
+
+---
+
+## 2) Windows에서 빌드하기 (Visual Studio)
+
+이 프로젝트는 한컴 OWPML SDK 라이브러리가 필요합니다.
 
 ### 빌드 환경
 
-* Microsoft Windows 10
-* Microsoft Visual Studio 2017 (15.9.42)
-* 플랫폼: x86
+* Windows 11
+* Visual Studio 2022
+* 플랫폼: Win32(x86) (현재 프로젝트 설정 기준)
+
+### 준비물: 한컴 OWPML SDK 라이브러리
+
+한컴 공개 레포에서 OWPML SDK를 준비합니다.
+
+* 참고: [https://github.com/hancom-io/hwpx-owpml-model](https://github.com/hancom-io/hwpx-owpml-model)
+
+해당 레포를 빌드하여 생성되는 라이브러리(예: `Owpml.lib`, `OWPMLApi.lib`, `OWPMLUtil.lib`)와 include 파일들을
+이 레포의 `include/`, `lib/` 구성에 맞게 배치합니다.
+(프로젝트 설정에 따라 경로가 다를 수 있으니, `.vcxproj`의 Include/Library 경로 설정을 기준으로 맞춰주세요.)
 
 ### 빌드 방법
 
-1. Visual Studio에서 솔루션 열기
-2. 구성 선택: `Debug` 또는 `Release`
-3. 플랫폼 선택: `x86`
-4. 빌드
+1. Visual Studio에서 솔루션(`HwpxConverter.sln`) 열기
+2. 구성(Configuration): `Release`
+3. 플랫폼(Platform): `Win32`
+4. 빌드(Build)
 
-빌드가 완료되면 `Build/Bin` 폴더에 다음 파일이 생성됩니다:
-
-* `Owpml.lib`
-* `OWPMLApi.lib`
-* `OWPMLUtil.lib`
-* `OWPMLTest.exe`
-
-이 라이브러리들을 사용하여 다른 프로젝트에서 OWPML 모델을 활용할 수 있습니다.
+빌드가 완료되면 `Release/`에 `HwpxConverter.exe`가 생성됩니다.
 
 ---
 
-## 샘플 실행
+## 실행 방법
 
-### Visual Studio에서 실행
-
-프로젝트 속성 → 디버깅 → 명령 인수에 다음을 설정:
-
-```
-입력파일.hwpx 출력파일.txt
-```
-
-### 커맨드라인에서 실행
+### 커맨드라인
 
 ```bash
-OWPMLTest.exe InputFile.hwpx OutputFile.txt
+HwpxConverter.exe "InputFile.hwpx" "OutputFile.html"
 ```
 
-첫 번째 섹션의 텍스트가 출력 파일에 저장됩니다.
+* 입력 파일이 `.hwpx`가 아니면 즉시 에러를 출력하고 종료합니다.
+* `.hwpx`인데도 변환 실패 시 “표준 HWPX가 아니거나 손상” 가능성을 안내합니다.
 
 ---
 
-## 문서 파이프라인에서의 활용
+## 테스트
 
-이 라이브러리는 다음과 같은 시스템의 **저수준 파서**로 사용되도록 설계되었습니다:
+로컬 테스트 케이스를 아래처럼 관리하는 것을 권장합니다.
 
-* HWPX → Markdown 변환기
-* RAG(문서 청킹, 임베딩, 검색)
-* 검색 및 인덱싱 시스템
-* AI 기반 문서 요약 및 분석
+* `test/cases/` : 입력 hwpx 파일
+* `test/expected/` : 기대 결과(html) 또는 기준 출력
+* `test/out/` : 실제 실행 결과(생성물, gitignore 권장)
 
-문서의 구조적 표현을 제공함으로써
-룰 기반 처리와 AI 기반 처리를 모두 가능하게 합니다.
+예시:
+
+```bash
+HwpxConverter.exe "test/cases/table_only.hwpx" "test/out/table_only.html"
+```
+
+추천 테스트 구성(최소 3종):
+
+* 개요(outline)만 있는 문서
+* 표(table)만 있는 문서
+* 리스트(list)만 있는 문서
+
+
 
 ---
+## 기여 가이드(간단)
 
-## 기여 가이드
-
-### 코드 스타일
-
-* 들여쓰기는 탭이 아닌 스페이스
-* UTF-8 인코딩
-
-### 커밋 규칙
-
-* 제목과 본문 사이 한 줄 띄우기
-* 제목 50자 이내
-* 형식: `<영역>: <요약>`
-  예: `engine: Improve OWPML table traversal`
-* 한글은 명사형, 영어는 명령형
-* 본문은 72자 줄바꿈
-* 무엇보다 **왜, 어떻게**를 중심으로 작성
-
----
-
-## 브랜치 및 작업 흐름
-
-### 클론
-
-```bash
-git clone https://github.com/hancom-io/hwpx-owpml-model.git
-```
-
-### 브랜치 생성
-
-```bash
-git checkout -b <브랜치이름>
-git push origin <브랜치이름>
-```
-
-### 푸시 및 PR
-
-```bash
-git status
-git add .
-git commit -m "#<이슈번호> <메시지>"
-git push origin <브랜치이름>
-```
-
-Pull Request를 통해 main 브랜치로 병합합니다.
+* 들여쓰기: 스페이스
+* 인코딩: UTF-8 권장
+* 커밋 메시지 예시: `converter: add hwpx extension validation`
 
 ---
 
 ## 라이선스
 
-자세한 내용은 [LICENSE.txt](LICENSE.txt)를 참고하세요.
+자세한 내용은 `LICENSE`를 참고하세요.
 
 ---
 
-## 참고 프로젝트
+## 참고
 
-본 프로젝트는 한컴에서 공개한 공식 OWPML 참조 구현을 기반으로 합니다:
-
-https://github.com/hancom-io/hwpx-owpml-model
-
-OWPML 문서 구조 및 모델 정의를 토대로,
-문서 변환 및 AI/RAG 파이프라인에 활용할 수 있도록 확장·재구성하였습니다.
+* Hancom OWPML SDK / Reference implementation: [https://github.com/hancom-io/hwpx-owpml-model](https://github.com/hancom-io/hwpx-owpml-model)
 
 ---
+## 예시
+<p align="center">
+    <img src="./docs/images/table1_hwpx.png" width="80%">
+</p>
+<p align="center">
+    <img src="./docs/images/table1_html.png" width="80%">
+</p>
+<p align="center">
+    <img src="./docs/images/table2_hwpx.png" width="80%">
+</p>
 
-## 문의
-
-질문 및 토론은 GitHub Discussions를 이용해주세요.
-
----
-
+<p align="center">
+    <img src="./docs/images/table2_html.png" width="80%">
+</p>

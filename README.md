@@ -1,184 +1,153 @@
-⚠ This project is currently in early development.
-The API and samples are not yet stable.
+# HwpxConverter
 
-# hwpx-owpml-model
+## What is this project?
 
-## What is this?
+`HwpxConverter` is a Windows converter that **parses HWPX (OWPML) documents and converts them to HTML**.
+It uses Hancom’s public **OWPML SDK libraries** to traverse the document structure (sections/paragraphs/runs/tables, etc.) and produces HTML in a form that’s easy to inspect, debug, and feed into downstream pipelines.
 
-`hwpx-owpml-model` is a lightweight OWPML (HWPX) parsing and modeling library for extracting structured content from HWPX documents.
+Typical use cases:
 
-It provides:
-
-* An OOXML-based model for OWPML
-* A tree-based representation of document elements (sections, paragraphs, runs, tables, etc.)
-* APIs to extract text and document structure for downstream processing (e.g. Markdown, RAG, LLM pipelines)
-
-This project is designed to be used as a **core parsing layer** for:
-
-* HWPX → Markdown converters
-* RAG document ingestion pipelines
-* Search / indexing systems
-* AI-based document understanding
+* HWPX → HTML conversion (primary goal)
+* Preprocessing for RAG / search pipelines (HTML/text extraction as an intermediate format)
+* Batch conversion tests for public-sector documents (tables/outlines/lists)
 
 ---
 
-## Why this exists
+## Key features
 
-HWPX (OWPML) is a powerful but complex XML-based format.
-Directly consuming it in downstream pipelines (RAG, search, summarization, etc.) is difficult without a clean document model.
+* Text extraction based on Paragraph / TextRun traversal
+* Outline (Outline 1–10) → HTML tag mapping (e.g., h1–h6)
+* Table (`<table>`) layout + text rendering
+* List rendering policy: **no numbering computation**, keep `<ol>` but **display bullets only** via CSS
 
-This project solves that by:
+<p align="center">
+    <img src="./docs/images/table1_html.png" width="80%">
+</p>
 
-* Converting raw OWPML into a structured object model
-* Allowing deterministic traversal of sections and elements
-* Making text and layout information accessible for rule-based and AI-based processing
+Source: Official publication of the National Police Agency 
 
----
-
-## Features
-
-* OOXML-style object model for OWPML
-* Section and element traversal
-* Text extraction from paragraphs and runs
-* Table, block and inline element support
-* Sample code for extracting text from a document section
-
-⚠ Current sample code extracts only the **first section** of a document.
-This is intentional for demonstration purposes.
+(2026년도 미래치안도전기술개발사업 신규과제 선정계획 공고)
 
 ---
 
-## Getting started (Windows build)
+## Support and limitations
+
+* Input: **`.hwpx` only**
+* Even with a `.hwpx` extension, some files may fail to open if they are **non-standard HWPX or corrupted**
+
+  * Examples: legacy HWP renamed to `.hwpx`, institution-provided files with non-standard packaging, damaged archives
+* Currently targets **Windows + Visual Studio 2022** (as the baseline environment)
+
+---
+
+## 1) Quick start (GitHub Releases)
+
+If you want to run it without building from source, download the latest executable (`HwpxConverter.exe`) from **GitHub Releases** and run:
+
+```bash
+HwpxConverter.exe "input.hwpx" "output.html"
+```
+
+* If the path/name contains spaces, quotes are strongly recommended.
+
+---
+
+## 2) Build on Windows (Visual Studio)
+
+This project requires Hancom’s OWPML SDK libraries.
 
 ### Build environment
 
-* Microsoft Windows 10
-* Microsoft Visual Studio 2017 (15.9.42)
-* Platform: x86
+* Windows 11
+* Visual Studio 2022
+* Platform: Win32 (x86) (based on current project settings)
+
+### Prerequisite: Hancom OWPML SDK libraries
+
+Prepare the SDK from Hancom’s public repo:
+
+* Reference: [https://github.com/hancom-io/hwpx-owpml-model](https://github.com/hancom-io/hwpx-owpml-model)
+
+Build that repo and obtain the required libraries (e.g. `Owpml.lib`, `OWPMLApi.lib`, `OWPMLUtil.lib`) and headers, then place them to match this repo’s expected layout (`include/`, `lib/`), following your `.vcxproj` include/library path configuration.
 
 ### Build steps
 
-1. Open the solution in Visual Studio
-2. Select configuration: `Debug` or `Release`
-3. Select platform: `x86`
-4. Build the solution
+1. Open the solution (`HwpxConverter.sln`) in Visual Studio
+2. Configuration: `Release`
+3. Platform: `Win32`
+4. Build
 
-After building, the following files will be generated in `Build/Bin`:
-
-* `Owpml.lib`
-* `OWPMLApi.lib`
-* `OWPMLUtil.lib`
-* `OWPMLTest.exe`
-
-You can link these libraries into your own projects to use the OWPML model.
+After building, `Release/HwpxConverter.exe` will be produced.
 
 ---
 
-## Running the sample
+## Usage
 
-### From Visual Studio
-
-Set command line arguments in:
-
-```
-Project Properties → Debugging → Command Arguments
-```
-
-Use:
-
-```
-<INPUT_FILE.hwpx> <OUTPUT_FILE.txt>
-```
-
-### From command line
+### Command line
 
 ```bash
-OWPMLTest.exe InputFile.hwpx OutputFile.txt
+HwpxConverter.exe "InputFile.hwpx" "OutputFile.html"
 ```
 
-This will extract text from the first section and write it to the output file.
+* If the input file is not `.hwpx`, the program prints an error and exits immediately.
+* If it is `.hwpx` but conversion fails, it prints guidance indicating the file may be non-standard or corrupted.
 
 ---
 
-## Use in document pipelines
+## Testing
 
-This library is intended to be used as a **low-level parser** in larger systems such as:
+A practical local test layout:
 
-* HWPX → Markdown converters
-* RAG pipelines (document chunking, embedding, retrieval)
-* Search / indexing systems
-* AI-based summarization or document understanding
+* `test/cases/`: input `.hwpx` files
+* `test/expected/`: expected output (HTML) or baseline outputs
+* `test/out/`: actual outputs generated by running the converter (recommended to gitignore)
 
-It provides the structured representation required for:
+Example:
 
-* Rule-based transformations
-* AI-assisted table and layout processing
+```bash
+HwpxConverter.exe "test/cases/table_only.hwpx" "test/out/table_only.html"
+```
+
+Minimum recommended set (3 docs):
+
+* Outline-only document
+* Table-only document
+* List-only document
 
 ---
 
-## Contribution guidelines
+## Contributing (short)
 
-### Code style
-
-* Use spaces instead of tabs
-* UTF-8 encoding
-
-### Commit convention
-
-* Separate title and body with a blank line
-* Title: within 50 characters
-  Format: `<domain>: <summary>`
-  Example: `engine: Improve OWPML table traversal`
-* Korean: noun phrase
-* English: imperative verb form
-* Body lines wrap at 72 characters
-* Focus on **why** and **how**, not just what
-
----
-
-## Branch & workflow
-
-### Clone
-
-```bash
-git clone https://github.com/hancom-io/hwpx-owpml-model.git
-```
-
-### Create a branch
-
-```bash
-git checkout -b <your-branch-name>
-git push origin <your-branch-name>
-```
-
-### Push and create PR
-
-```bash
-git status
-git add .
-git commit -m "#<issue-number> <message>"
-git push origin <your-branch-name>
-```
-
-Open a Pull Request to merge into `main`.
+* Indentation: spaces
+* Encoding: UTF-8 recommended
+* Commit example: `converter: add hwpx extension validation`
 
 ---
 
 ## License
 
-See [LICENSE.txt](LICENSE.txt) for details.
+See `LICENSE` for details.
 
 ---
 
-## Acknowledgements
+## Reference
 
-This project is based on and inspired by Hancom’s official OWPML reference implementation:
-https://github.com/hancom-io/hwpx-owpml-model
-
-It reuses the OWPML object model and XML structure as a foundation, and builds higher-level document processing and AI-oriented pipelines on top of it.
+* Hancom OWPML SDK / reference implementation: [https://github.com/hancom-io/hwpx-owpml-model](https://github.com/hancom-io/hwpx-owpml-model)
 
 ---
 
-## Contact
+## Example
 
-For questions and discussion, use the GitHub Discussions tab.
+<p align="center">
+    <img src="./docs/images/table1_hwpx.png" width="80%">
+</p>
+<p align="center">
+    <img src="./docs/images/table1_html.png" width="80%">
+</p>
+<p align="center">
+    <img src="./docs/images/table2_hwpx.png" width="80%">
+</p>
+
+<p align="center">
+    <img src="./docs/images/table2_html.png" width="80%">
+</p>

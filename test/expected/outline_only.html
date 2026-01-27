@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+table { border-collapse: collapse; }
+th, td {
+    border: 1px solid black;
+    padding: 6px 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+/* 핵심 정책:
+   - numbering/bullet 모두 <ol>로 열되
+   - 화면은 ul처럼 점만 보이게(번호 계산 X)
+*/
+.hwpx-ol-dot {
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 1.4em;
+}
+.hwpx-ol-dot > li {
+    margin: 0.2em 0;
+}
+</style>
+</head>
+<body>
+<h1 class="outline-1">개요1</h1>
+<h2 class="outline-2">개요2-1</h2>
+<h2 class="outline-2">개요2-2</h2>
+<h3 class="outline-3">개요3</h3>
+<h4 class="outline-4">개요4</h4>
+<h5 class="outline-5">개요5</h5>
+<h6 class="outline-6">개요6</h6>
+
+</body>
+</html>

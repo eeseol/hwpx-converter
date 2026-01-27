@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwpxToMarkdown", "HwpxToMarkdown.vcxproj", "{38EC8453-A2C8-4BDF-85FA-8F6DF3E02BCE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwpxConverter", "HwpxConverter.vcxproj", "{38EC8453-A2C8-4BDF-85FA-8F6DF3E02BCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

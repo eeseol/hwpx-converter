@@ -24,6 +24,7 @@
     <ProjectGuid>{38ec8453-a2c8-4bdf-85fa-8f6df3e02bce}</ProjectGuid>
     <RootNamespace>HwpxToMarkdown</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>HwpxConverter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

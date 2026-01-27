@@ -58,4 +58,15 @@ namespace WalkerConfig
     inline constexpr bool IsRowGroup(std::uint32_t id) { return id == ROW_GROUP_ID; }
     inline constexpr bool IsCellWrapper(std::uint32_t id) { return id == CELL_WRAPPER_ID; }
 
+    // =========================================================
+    // LIST PARA DUMP 
+    // =========================================================
+    inline constexpr bool DUMP_LIST_PARA_SUBTREE = false;   // 리스트 문단만 subtree 덤프
+    inline constexpr int  DUMP_LIST_PARA_LIMIT = 50;       // 최대 N개 문단만
+    inline constexpr int  DUMP_LIST_MAX_NODES = 400;       // dump safe 노드 제한
+
+    // paraPrIDRef로 필터링 (너 xml에서 paraPrIDRef="20")
+    inline constexpr bool DUMP_LIST_FILTER_BY_PARAPR = true;
+    inline constexpr std::uint32_t LIST_PARA_PR_ID = 20;
+
 } // namespace WalkerConfig
